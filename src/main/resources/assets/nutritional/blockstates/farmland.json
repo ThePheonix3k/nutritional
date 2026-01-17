@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "moisture=0": {
+      "model": "nutritional:block/farmland"
+    },
+    "moisture=1": {
+      "model": "nutritional:block/farmland"
+    },
+    "moisture=2": {
+      "model": "nutritional:block/farmland"
+    },
+    "moisture=3": {
+      "model": "nutritional:block/farmland"
+    },
+    "moisture=4": {
+      "model": "nutritional:block/farmland"
+    },
+    "moisture=5": {
+      "model": "nutritional:block/farmland"
+    },
+    "moisture=6": {
+      "model": "nutritional:block/farmland"
+    },
+    "moisture=7": {
+      "model": "nutritional:block/farmland_moist"
+    }
+  }
+}
