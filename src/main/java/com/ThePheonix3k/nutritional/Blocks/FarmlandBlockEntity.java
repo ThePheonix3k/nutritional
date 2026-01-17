@@ -3,7 +3,6 @@ package com.ThePheonix3k.nutritional.Blocks;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -14,6 +13,10 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -130,5 +133,46 @@ public class FarmlandBlockEntity extends BlockWithEntity implements BlockEntityP
     static {
         SHAPE = Block.createCuboidShape((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)15.0F, (double)16.0F);
         MOISTURE = Properties.MOISTURE;
+    }
+
+
+    //start of new stuff
+
+    public float nitrogenLevel;
+    public float phosphorusLevel;
+    public float potassiumLevel;
+
+    public float hydrationLevel;
+
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        this.hydrationLevel = findNearestWaterDistance(world, pos);
+//        float localdistance = findNearestWaterDistance(world, pos);
+//        if(Float.isInfinite(localdistance)) {
+//            this.hydrationLevel = 0.0f;
+//        } else {
+//            this.hydrationLevel = localdistance * 100.0f;
+//        }
+    }
+
+    public static float findNearestWaterDistance(WorldView world, BlockPos center) {
+        double minSq = Double.POSITIVE_INFINITY;
+        for (BlockPos p : BlockPos.iterate(center.add(-5, -1, -5), center.add(5, 2, 5))) {
+            if (world.getFluidState(p).isIn(FluidTags.WATER)) {
+                double dx = (p.getX() + 0.5D) - (center.getX() + 0.5D);
+                double dy = (p.getY() + 0.5D) - (center.getY() + 0.5D);
+                double dz = (p.getZ() + 0.5D) - (center.getZ() + 0.5D);
+                double sq = dx * dx + dy * dy + dz * dz;
+                if (sq < minSq) minSq = sq;
+            }
+        }
+        return minSq == Double.POSITIVE_INFINITY ? Float.POSITIVE_INFINITY : (float)Math.sqrt(minSq);
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (!world.isClient) {
+            player.sendMessage(Text.literal("Hydration: " + this.hydrationLevel), false);
+        }
+        return ActionResult.SUCCESS;
     }
 }
