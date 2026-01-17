@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "nutritional",
+  "version": "0.0.1",
+
+  "name": "nutritional",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "All-Rights-Reserved",
+  "icon": "assets/nutritional/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": ["com.ThePheonix3k.nutritional.client.NutritionalDataGenerator"],
+    "client": ["com.ThePheonix3k.nutritional.client.NutritionalClient"],
+    "main": ["com.ThePheonix3k.nutritional.Nutritional"]
+  },
+
+  "mixins": [
+    "nutritional.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "fabric-api": "*",
+    "minecraft": "1.20.1"
+  }
+}
