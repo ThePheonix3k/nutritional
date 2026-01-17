@@ -72,6 +72,6 @@ public class NutritionalFarmlandBlock extends FarmlandBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(PHOSPHORUS, NITROGEN, POTASSIUM);
+        builder.add(PHOSPHORUS, NITROGEN, POTASSIUM, MOISTURE);
     }
 }
