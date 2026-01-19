@@ -1,8 +1,8 @@
-package com.ThePheonix3k.nutritional.Blocks;
+package com.ThePheonix3k.nutritional.Blocks.entity;
 
+import com.ThePheonix3k.nutritional.Blocks.ModBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
@@ -26,7 +26,18 @@ public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
     }
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        this.hydrationLevel = findNearestWaterDistance(world, pos);
+        this.hydrationLevel = Math.round(findNearestWaterDistance(world, pos) * -16.0 + 116.0);
+        int i = 5; // add config for this value as well
+        if (world.hasRain(pos.up())){
+            this.hydrationLevel += i;
+        }
+        if(this.hydrationLevel == 116.0 || this.hydrationLevel == 116 + i) {
+            this.hydrationLevel = 0;
+        } else if(this.hydrationLevel > 100.0) {
+            this.hydrationLevel = 100.0;
+        }
+
+
         markDirty();
     }
 
@@ -37,11 +48,12 @@ public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
     public double findNearestWaterDistance(WorldView world, BlockPos pos) {
         double minWaterDist = Double.MAX_VALUE;
         boolean foundWater = false;
-        int SEARCH_DIST = 10;
+        int SEARCH_DIST = 5; //add configs for these later
+        int SEARCH_DIST_Y = 1; // ''
 
         for(int i = -SEARCH_DIST; i <= SEARCH_DIST; ++i) {
             for(int j = -SEARCH_DIST; j <= SEARCH_DIST; ++j) {
-                for(int k = -SEARCH_DIST; k <= SEARCH_DIST; ++k) {
+                for(int k = -SEARCH_DIST_Y; k <= SEARCH_DIST_Y; ++k) {
                     BlockPos p = pos.add(i, k, j);
                     if (world.getFluidState(p).isIn(FluidTags.WATER)) {
                         double dx = (p.getX()) - (pos.getX());
