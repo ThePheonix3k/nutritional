@@ -1,18 +1,12 @@
 package com.ThePheonix3k.nutritional.block.entity;
 
 import com.ThePheonix3k.nutritional.block.ModBlocks;
-import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
@@ -103,8 +97,6 @@ public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, NutritionalFarmlandBlockBlockEntity blockEntity) {
-        if (!world.isClient) {
-            ((ServerWorld) world).scheduleBlockTick(pos, state.getBlock(), 1);
-        }
+        world.scheduleBlockTick(pos, state.getBlock(), 1);
     }
 }
