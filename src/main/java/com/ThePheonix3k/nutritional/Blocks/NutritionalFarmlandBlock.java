@@ -25,11 +25,14 @@ import net.minecraft.world.*;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public class NutritionalFarmlandBlock extends BlockWithEntity implements BlockEntityProvider {
+public class NutritionalFarmlandBlock extends BlockWithEntity {
+    public static final IntProperty MOISTURE = Properties.MOISTURE;
+    protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.0, 16.0);
+
     protected NutritionalFarmlandBlock(Settings settings) {
         super(settings);
+        this.setDefaultState(this.stateManager.getDefaultState().with(MOISTURE, 0));
     }
-
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
@@ -38,12 +41,8 @@ public class NutritionalFarmlandBlock extends BlockWithEntity implements BlockEn
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new NutritionalFarmlandBlockBlockEntity(pos, state);
     }
-
-    public static final IntProperty MOISTURE;
-    protected static final VoxelShape SHAPE;
-
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.UP && !state.canPlaceAt(world, pos)) {
@@ -74,33 +73,7 @@ public class NutritionalFarmlandBlock extends BlockWithEntity implements BlockEn
         if (!state.canPlaceAt(world, pos)) {
             setToDirt((Entity)null, state, world, pos);
         }
-
     }
-
-//    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-//        int i = (Integer)state.get(MOISTURE);
-//        if (!isWaterNearby(world, pos) && !world.hasRain(pos.up())) {
-//            if (i > 0) {
-//                world.setBlockState(pos, (BlockState)state.with(MOISTURE, i - 1), 2);
-//            } else if (!hasCrop(world, pos)) {
-//                setToDirt((Entity)null, state, world, pos);
-//            }
-//        } else if (i < 7) {
-//            world.setBlockState(pos, (BlockState)state.with(MOISTURE, 7), 2);
-//        }
-//
-//    }
-
-
-    //i HATE crop trampling. All my homies HATE crop trampling.
-
-//    public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-//        if (!world.isClient && world.random.nextFloat() < fallDistance - 0.5F && entity instanceof LivingEntity && (entity instanceof PlayerEntity || world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) && entity.getWidth() * entity.getWidth() * entity.getHeight() > 0.512F) {
-//            setToDirt(entity, state, world, pos);
-//        }
-//
-//        super.onLandedUpon(world, state, pos, entity, fallDistance);
-//    }
 
     public static void setToDirt(@Nullable Entity entity, BlockState state, World world, BlockPos pos) {
         BlockState blockState = pushEntitiesUpBeforeBlockChange(state, Blocks.DIRT.getDefaultState(), world, pos);
@@ -123,23 +96,40 @@ public class NutritionalFarmlandBlock extends BlockWithEntity implements BlockEn
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{MOISTURE});
+        builder.add(MOISTURE);
     }
 
     public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
         return false;
     }
 
-    static {
-        SHAPE = Block.createCuboidShape((double)0.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)15.0F, (double)16.0F);
-        MOISTURE = Properties.MOISTURE;
-    }
-
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            player.sendMessage(Text.literal("Hydration: " + this.hydrationLevel), false);
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof NutritionalFarmlandBlockBlockEntity farmlandEntity) {
+                player.sendMessage(Text.literal("Hydration: " + farmlandEntity.getHydrationLevel()), false);
+            }
         }
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof NutritionalFarmlandBlockBlockEntity farmlandEntity) {
+            farmlandEntity.randomTick(state, world, pos, random);
+        }
+        
+//        int i = state.get(MOISTURE);
+//        if (!isWaterNearby(world, pos) && !world.hasRain(pos.up())) {
+//            if (i > 0) {
+//                world.setBlockState(pos, state.with(MOISTURE, i - 1), 2);
+//            } else if (!hasCrop(world, pos)) {
+//                setToDirt((Entity)null, state, world, pos);
+//            }
+//        } else if (i < 7) {
+//            world.setBlockState(pos, state.with(MOISTURE, 7), 2);
+//        }
     }
 }
