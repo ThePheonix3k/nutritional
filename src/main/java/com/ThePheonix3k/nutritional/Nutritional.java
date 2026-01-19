@@ -1,6 +1,6 @@
 package com.ThePheonix3k.nutritional;
 
-import com.ThePheonix3k.nutritional.Blocks.ModBlocks;
+import com.ThePheonix3k.nutritional.block.ModBlocks;
 import net.fabricmc.api.ModInitializer;
 
 public class Nutritional implements ModInitializer {

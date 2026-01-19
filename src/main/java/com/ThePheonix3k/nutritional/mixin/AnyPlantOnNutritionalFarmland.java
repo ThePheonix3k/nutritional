@@ -1,6 +1,6 @@
 package com.ThePheonix3k.nutritional.mixin;
 
-import com.ThePheonix3k.nutritional.Blocks.ModBlocks;
+import com.ThePheonix3k.nutritional.block.ModBlocks;
 import net.minecraft.block.AttachedStemBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;

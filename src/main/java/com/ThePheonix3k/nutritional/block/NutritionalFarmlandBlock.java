@@ -1,8 +1,10 @@
-package com.ThePheonix3k.nutritional.Blocks;
+package com.ThePheonix3k.nutritional.block;
 
-import com.ThePheonix3k.nutritional.Blocks.entity.NutritionalFarmlandBlockBlockEntity;
+import com.ThePheonix3k.nutritional.block.entity.NutritionalFarmlandBlockBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,7 +31,7 @@ public class NutritionalFarmlandBlock extends BlockWithEntity {
     public static final IntProperty MOISTURE = Properties.MOISTURE;
     protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 15.0, 16.0);
 
-    protected NutritionalFarmlandBlock(Settings settings) {
+    protected NutritionalFarmlandBlock(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(MOISTURE, 0));
     }
@@ -42,14 +44,6 @@ public class NutritionalFarmlandBlock extends BlockWithEntity {
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new NutritionalFarmlandBlockBlockEntity(pos, state);
-    }
-
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (direction == Direction.UP && !state.canPlaceAt(world, pos)) {
-            world.scheduleBlockTick(pos, this, 1);
-        }
-
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
 
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
@@ -67,12 +61,6 @@ public class NutritionalFarmlandBlock extends BlockWithEntity {
 
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
-    }
-
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (!state.canPlaceAt(world, pos)) {
-            setToDirt((Entity)null, state, world, pos);
-        }
     }
 
     public static void setToDirt(@Nullable Entity entity, BlockState state, World world, BlockPos pos) {
@@ -115,10 +103,10 @@ public class NutritionalFarmlandBlock extends BlockWithEntity {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof NutritionalFarmlandBlockBlockEntity farmlandEntity) {
-            farmlandEntity.randomTick(state, world, pos, random);
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be instanceof NutritionalFarmlandBlockBlockEntity ble) {
+            ble.scheduledTick(state, world, pos);
         }
         
 //        int i = state.get(MOISTURE);
@@ -131,5 +119,18 @@ public class NutritionalFarmlandBlock extends BlockWithEntity {
 //        } else if (i < 7) {
 //            world.setBlockState(pos, state.with(MOISTURE, 7), 2);
 //        }
+    }
+
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.UP && !state.canPlaceAt(world, pos)) {
+            world.scheduleBlockTick(pos, this, 1);
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return BlockWithEntity.checkType(type, ModBlocks.NUTRITIONAL_FARMLAND_BLOCK_ENTITY, NutritionalFarmlandBlockBlockEntity::tick);
     }
 }

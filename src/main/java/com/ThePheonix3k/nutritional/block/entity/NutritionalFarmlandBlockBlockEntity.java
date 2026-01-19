@@ -1,13 +1,18 @@
-package com.ThePheonix3k.nutritional.Blocks.entity;
+package com.ThePheonix3k.nutritional.block.entity;
 
-import com.ThePheonix3k.nutritional.Blocks.ModBlocks;
+import com.ThePheonix3k.nutritional.block.ModBlocks;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
@@ -25,7 +30,7 @@ public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
         this.hydrationLevel = 0.0;
     }
 
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void scheduledTick(BlockState state, World world, BlockPos pos) {
         this.hydrationLevel = Math.round(findNearestWaterDistance(world, pos) * -16.0 + 116.0);
         int i = 5; // add config for this value as well
         if (world.hasRain(pos.up())){
@@ -94,6 +99,12 @@ public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
         }
         if (nbt.contains("hydrationLevel")) {
             this.hydrationLevel = nbt.getDouble("hydrationLevel");
+        }
+    }
+
+    public static void tick(World world, BlockPos pos, BlockState state, NutritionalFarmlandBlockBlockEntity blockEntity) {
+        if (!world.isClient) {
+            ((ServerWorld) world).scheduleBlockTick(pos, state.getBlock(), 1);
         }
     }
 }

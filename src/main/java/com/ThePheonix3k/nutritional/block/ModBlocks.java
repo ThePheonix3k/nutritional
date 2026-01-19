@@ -1,6 +1,6 @@
-package com.ThePheonix3k.nutritional.Blocks;
+package com.ThePheonix3k.nutritional.block;
 
-import com.ThePheonix3k.nutritional.Blocks.entity.NutritionalFarmlandBlockBlockEntity;
+import com.ThePheonix3k.nutritional.block.entity.NutritionalFarmlandBlockBlockEntity;
 import com.ThePheonix3k.nutritional.Nutritional;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
