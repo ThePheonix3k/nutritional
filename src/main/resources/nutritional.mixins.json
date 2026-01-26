@@ -4,7 +4,8 @@
   "package": "com.ThePheonix3k.nutritional.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "AnyPlantOnNutritionalFarmland"
+    "AnyPlantOnNutritionalFarmland",
+    "BonemealFertilizerMixin"
   ],
   "client": [],
   "injectors": {

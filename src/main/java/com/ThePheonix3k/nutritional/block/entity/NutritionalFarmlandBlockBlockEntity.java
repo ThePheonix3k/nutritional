@@ -44,6 +44,18 @@ public class NutritionalFarmlandBlockBlockEntity extends BlockEntity {
         return this.hydrationLevel;
     }
 
+    public float getPotassiumLevel() {
+        return this.potassiumLevel;
+    }
+
+    public float getNitrogenLevel() {
+        return this.nitrogenLevel;
+    }
+
+    public float getPhosphorusLevel() {
+        return this.phosphorusLevel;
+    }
+
     public double findNearestWaterDistance(WorldView world, BlockPos pos) {
         double minWaterDist = Double.MAX_VALUE;
         boolean foundWater = false;

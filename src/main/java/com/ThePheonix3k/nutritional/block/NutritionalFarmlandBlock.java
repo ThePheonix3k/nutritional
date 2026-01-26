@@ -91,12 +91,12 @@ public class NutritionalFarmlandBlock extends BlockWithEntity {
         return false;
     }
 
-    @Override
+    @Override //debug
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof NutritionalFarmlandBlockBlockEntity farmlandEntity) {
-                player.sendMessage(Text.literal("Hydration: " + farmlandEntity.getHydrationLevel()), false);
+                player.sendMessage(Text.literal("Hydration: " + farmlandEntity.getNitrogenLevel()), false);
             }
         }
         return ActionResult.SUCCESS;
