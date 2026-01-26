@@ -1,0 +1,74 @@
+biome temp list: https://github.com/erich666/Mineways/blob/master/Win/biomes.cpp
+
+For temperature, plants will have a debuff in biomes 0.3 above or below the listed range range
+will have massive denuff in biomes outside of that secondary range (this applies to all of the crows below as well unless otherwise noted)
+
+idk figure something out for environment score to do with hydration later
+
+
+
+
+Carrots:
+1-2-3 | N-P-K
+Hydration -- 40-60 percent, tolerates 15-39 and 61-85 percent with debuff
+will grow best in temperate biomes (0.6-0.9)
+no nutrient fixing
+
+Potatoes:
+2-1-4 | N-P-K
+60-80 percent hydration, tolerates 30-59 and 81-90 percent with debuff
+will grow best in temperate biomes (0.6-0.9)
+no nutrient fixing
+
+Wheat:
+Wants 100% nitrogen
+Hydration -- 40-60 percent, tolerates 15-39 and 61-85 percent with debuff
+will grow best in cold-temperate biomes (0.3-0.7)
+Fixes adds Phosphorus and Potassium to the soil at an equal rate
+
+Beetroot:
+1-1-1 | N-P-K
+Hydration -- 20-40 percent, tolerates 10-19 and 41-60 percent with debuff
+will grow best in cold biomes (0.3-0.5)
+no nutrient fixing
+
+Pumpkins:
+2-1-4 | N-P-K
+Hydration -- 70-85 percent, tolerates 40-69 and 86-95 percent with debuff
+will grow best in warm-temperate biomes (0.7-1.0)
+no nutrient fixing
+
+Melons:
+2-1-4 | N-P-K
+Hydration -- 50-100 percent, tolerates 30-49 percent with debuff
+will grow best in warm biomes (0.95-1.2)
+no nutrient fixing
+
+***FARMERS DELIGHT***
+
+Tomatoes:
+1-2-4 | N-P-K
+Hydration -- 50-70 percent, tolerates 20-49 and 71-90 percent with debuff
+will grow best in warmer biomes (0.7-1.0)
+no nutrient fixing
+
+Cabbage:
+2-1-2 | N-P-K
+Hydration -- 10-65 percent, tolerates 5-9 and 66-80 percent with debuff
+will grow best in temperate biomes (0.6-0.9)
+no nutrient fixing
+
+Onions:
+1-1-1 | N-P-K
+Hydration -- 30-50 percent, tolerates 15-29 and 51-70 percent with debuff
+will grow best in temperate-warm biomes (0.7-1.0)
+
+
+
+
+
+
+
+
+
+
