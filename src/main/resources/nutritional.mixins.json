@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AnyPlantOnNutritionalFarmland",
-    "BonemealFertilizerMixin"
+    "BonemealFertilizerMixin",
+    "GrowthMixin"
   ],
   "client": [],
   "injectors": {
