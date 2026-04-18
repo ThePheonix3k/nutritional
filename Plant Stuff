@@ -46,6 +46,13 @@ no nutrient fixing
 
 ***FARMERS DELIGHT***
 
+Rice:
+Wants max nitrogen
+fixes phosphorus and potassium at an equal rate
+figure out later what to do with hydration bc rice is weird in farmers delight
+(basically just water wheat)
+Grows best in warm biomes (0.95-1.2)
+
 Tomatoes:
 1-2-4 | N-P-K
 Hydration -- 50-70 percent, tolerates 20-49 and 71-90 percent with debuff
@@ -62,6 +69,16 @@ Onions:
 1-1-1 | N-P-K
 Hydration -- 30-50 percent, tolerates 15-29 and 51-70 percent with debuff
 will grow best in temperate-warm biomes (0.7-1.0)
+
+
+
+TWO OPTIONS FOR THE FUTURE:
+
+Option A:
+add crops that can fix nitrogen (legumes) to maintain realism and allow for complete crop rotation at the expense of me having to add new crops to the game
+
+Option B:
+Change the nutrients from Phosphorus, nitrogen, and potassium to Nutrient α, Nutrient β, and Nutrient γ to allow for more flexibility for me. These are just placeholder names and will likely be replaced if i do this.
 
 
 
